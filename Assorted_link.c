@@ -61,7 +61,32 @@ struct node* del_node(struct node* head)
 
     return 0;
 }
+struct node* create_node()
+{
+    printf("Enter the number of nodes to create: ");
+scanf("%d",&n);
+printf("Enter data in ascending order\n");
 
+for(int i=1;i<=n;i++){
+newNode = (struct node*)malloc(sizeof(struct node)); //allocating space for the new node and pointing it with new node pointer.
+printf("Enter data for node %d: ",i);
+scanf("%d",&newNode->data);
+
+newNode->link=NULL; //after taking data, the link part of the node is assigned to null to signify the last node.
+
+if(head==NULL)//reason being if you always point it to the new node the link between all the nodes will be destroyed 
+{
+    head=pNew=newNode;//so for start of the linked list head is assigned to new node aswell as the temp value for future linking.
+    
+}else
+{
+pNew->link=newNode;//pNew->link means the pNew is pointing to the node, to access the node's link we use head.
+pNew = newNode;//Now the temp/pNew value points to newly created node.
+}
+
+}
+return 0;
+}
 bool searchNode(struct node *head,struct node **pPre,struct node **pLoc,int element)
 {
     *pPre=NULL;
@@ -88,30 +113,7 @@ bool searchNode(struct node *head,struct node **pPre,struct node **pLoc,int elem
 int main()
 {
  
-
-printf("Enter the number of nodes to create: ");
-scanf("%d",&n);
-printf("Enter data in ascending order\n");
-
-for(int i=1;i<=n;i++){
-newNode = (struct node*)malloc(sizeof(struct node)); //allocating space for the new node and pointing it with new node pointer.
-printf("Enter data for node %d: ",i);
-scanf("%d",&newNode->data);
-
-newNode->link=NULL; //after taking data, the link part of the node is assigned to null to signify the last node.
-
-if(head==NULL)//reason being if you always point it to the new node the link between all the nodes will be destroyed 
-{
-    head=pNew=newNode;//so for start of the linked list head is assigned to new node aswell as the temp value for future linking.
-    
-}else
-{
-pNew->link=newNode;//pNew->link means the pNew is pointing to the node, to access the node's link we use head.
-pNew = newNode;//Now the temp/pNew value points to newly created node.
-}
-
-}
-
+create_node();
 
 pNew=head;
 printf("Printing nodes \n");
