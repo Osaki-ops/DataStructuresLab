@@ -110,31 +110,47 @@ bool searchNode(struct node *head,struct node **pPre,struct node **pLoc,int elem
     }
    
 }
+struct node* Ret_node(struct node* head)
+{
+int re_node;
+pNew=head;
+printf("Enter which node you want to retrieve:  ");
+scanf("%d",&re_node);
+
+for(int i=1;i<re_node;i++)
+{
+    pNew=pNew->link;
+}
+printf("Data at node %d : %d\n",re_node,pNew->data);
+
+return 0;
+
+}
+struct node* Trav_node(struct node* head)
+{
+    pNew=head;
+printf("Printing nodes \n");
+for(int i=1;i<=n;i++)
+{
+    printf("%d\n",pNew->data);
+    pNew=pNew->link;
+
+}
+return 0;
+}
 int main()
 {
  
 create_node();
 
-pNew=head;
-printf("Printing nodes \n");
-for(int i=1;i<=n;i++)
-{
-    printf("%d\n",pNew->data);
-    pNew=pNew->link;
-
-}
+Trav_node(head);
 
 ins_node(head);
 del_node(head);
 
-pNew=head;
-printf("Printing nodes \n");
-for(int i=1;i<=n;i++)
-{
-    printf("%d\n",pNew->data);
-    pNew=pNew->link;
+Trav_node(head);
 
-}
+Ret_node(head);
 
 printf("Enter the element to be searched: ");
 scanf("%d",&search_element);
