@@ -1,0 +1,254 @@
+Implementation od Stack ADT:-
+
+stack.h:-
+
+#ifndef STACK_H
+#define STACK_H
+
+#define MAX_SIZE 100
+
+typedef struct {
+    int data[MAX_SIZE];
+    int top;
+} Stack;
+
+void initialize(Stack* stack);
+int isEmpty(Stack* stack);
+int isFull(Stack* stack);
+void push(Stack* stack, int value);
+int pop(Stack* stack);
+int top(Stack* stack);
+
+#endif /* STACK_H */
+
+stack.c:-
+
+#include "stack.h"
+
+void initialize(Stack* stack) {
+    stack->top = -1;
+}
+
+int isEmpty(Stack* stack) {
+    return stack->top == -1;
+}
+
+int isFull(Stack* stack) {
+    return stack->top == MAX_SIZE - 1;
+}
+
+void push(Stack* stack, int value) {
+    if (isFull(stack)) {
+        return;
+    }
+    stack->data[++stack->top] = value;
+}
+
+int pop(Stack* stack) {
+    if (isEmpty(stack)) {
+        return -1;
+    }
+    return stack->data[stack->top--];
+}
+
+int top(Stack* stack) {
+    if (isEmpty(stack)) {
+        return -1;
+    }
+    return stack->data[stack->top];
+}
+
+4 Queens program by using Stack ADT
+
+main.c:-
+
+#include <stdio.h>
+#include "stack.h"
+
+void printBoard(Stack* stack, int n) {
+    char board[n][n];
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            board[i][j] = '-';
+        }
+    }
+
+    for (int i = 0; i < stack->top; i += 2) {
+        int row = stack->data[i];
+        int col = stack->data[i + 1];
+        board[row][col] = 'Q';
+    }
+
+    printf("Board diagram for N = %d:\n", n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%c ", board[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+int isSafe(Stack* stack, int row, int col) {
+    for (int i = 0; i < stack->top; i += 2) {
+        int prevRow = stack->data[i];
+        int prevCol = stack->data[i + 1];
+
+        if (prevCol == col || (prevRow + prevCol) == (row + col) || (prevRow - prevCol) == (row - col))
+            return 0;
+    }
+    return 1;
+}
+
+void solveNQueensUtil(Stack* stack, int n, int row) {
+    if (row == n) {
+        printBoard(stack, n);
+        return;
+    }
+
+    for (int col = 0; col < n; col++) {
+        if (isSafe(stack, row, col)) {
+            push(stack, row);
+            push(stack, col);
+            solveNQueensUtil(stack, n, row + 1);
+            pop(stack);
+            pop(stack);
+        }
+    }
+}
+
+void solveNQueens(int n) {
+    Stack stack;
+    initialize(&stack);
+
+    solveNQueensUtil(&stack, n, 0);
+}
+
+int main() {
+    int n = 4;
+    solveNQueens(n);
+
+    return 0;
+}
+
+Output:-
+Board diagram for N = 4:
+- Q - -
+- - - Q
+Q - - -
+- - Q -
+
+Board diagram for N = 4:
+- - Q -
+Q - - -
+- - - Q
+- Q - -
+
+Reversing a list of student data (containing roll no., name and mid-marks) using the Stack ADT
+
+reverse.c:-
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "stack.h"
+
+// Structure to represent a student
+typedef struct {
+    int rollNo;
+    char name[50];
+    float midMarks;
+} Student;
+
+// Function to reverse the list of students using stack
+void reverseStudentList(Student* students, int size) {
+    Stack stack;
+    initialize(&stack);
+
+    // Push each student onto the stack
+    for (int i = 0; i < size; i++) {
+        push(&stack, i);
+    }
+
+    // Create a temporary array to store the reversed students
+    Student* reversedStudents = (Student*)malloc(size * sizeof(Student));
+
+    // Pop students from the stack to reverse the order
+    for (int i = 0; i < size; i++) {
+        int index = pop(&stack);
+        reversedStudents[i] = students[index];
+    }
+
+    // Copy the reversed students back to the original array
+    memcpy(students, reversedStudents, size * sizeof(Student));
+
+    // Free the temporary array
+    free(reversedStudents);
+}
+
+// Function to print the list of students
+void printStudentList(Student* students, int size) {
+    printf("Student List:\n");
+    for (int i = 0; i < size; i++) {
+        printf("Roll No: %d, Name: %s, Mid Marks: %.2f\n", students[i].rollNo, students[i].name, students[i].midMarks);
+    }
+    printf("\n");
+}
+
+int main() {
+    int n;
+    printf("Enter the number of students: ");
+    scanf("%d", &n);
+
+    // Allocate memory for the students array
+    Student* students = (Student*)malloc(n * sizeof(Student));
+
+    // Read student data from the user
+    for (int i = 0; i < n; i++) {
+        printf("Enter details for Student %d:\n", i + 1);
+        printf("Roll No: ");
+        scanf("%d", &students[i].rollNo);
+        printf("Name: ");
+        scanf("%s", students[i].name);
+        printf("Mid Marks: ");
+        scanf("%f", &students[i].midMarks);
+        printf("\n");
+    }
+
+    // Print the original list of students
+    printf("Original ");
+    printStudentList(students, n);
+
+    // Reverse the list of students
+    reverseStudentList(students, n);
+
+    // Print the reversed list of students
+    printf("Reversed ");
+    printStudentList(students, n);
+
+    // Free the allocated memory
+    free(students);
+
+    return 0;
+}
+
+Output:-
+Enter the number of students: 2
+Enter details for Student 1:
+Roll No: 1
+Name: sathvik
+Mid Marks: 23
+
+Enter details for Student 2:
+Roll No: 2
+Name: yuva
+Mid Marks: 20
+
+Original Student List:
+Roll No: 1, Name: sathvik, Mid Marks: 23.00
+Roll No: 2, Name: yuva, Mid Marks: 20.00
+
+Reversed Student List:
+Roll No: 2, Name: yuva, Mid Marks: 20.00
+Roll No: 1, Name: sathvik, Mid Marks: 23.00
