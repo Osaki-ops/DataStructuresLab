@@ -1,3 +1,4 @@
 # DataStructuresLab
 
-All functions/operations related to linked lists and other data structures.
+All Data Structure related function/implementation present in this repo.
+<3
