@@ -2,9 +2,6 @@
 #include <stdbool.h>
 #include "Stack_adt.h"
 
-#define MAX_ROWS 7
-#define MAX_COLS 10
-#define WHITE 0
 
 int maze[7][10] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -98,7 +95,7 @@ bool ratInMaze(int row, int col, struct stack* visitedStack)
 
 bool isValidSpot(int row, int col, struct stack* visitedStack)
 {
-    return (row >= 0 && row < MAX_ROWS && col >= 0 && col < MAX_COLS && maze[row][col] == WHITE && !isSpotVisited(row, col, visitedStack));
+    return (row >= 0 && row < 7 && col >= 0 && col < 10 && maze[row][col] == 0 && !isSpotVisited(row, col, visitedStack));
 }
 
 int main()
